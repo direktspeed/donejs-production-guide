@@ -1,0 +1,4 @@
+# We load the certificates we created via certbot.
+# sudo certbot certonly --webroot --webroot-path=/var/www/html -d domain.tld -d www.domain.tld
+ssl_certificate /etc/letsencrypt/live/domain.tld/fullchain.pem;
+ssl_certificate_key /etc/letsencrypt/live/domain.tld/privkey.pem;
