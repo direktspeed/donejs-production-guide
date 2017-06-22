@@ -1,0 +1,35 @@
+version: '3'
+services:
+  nginx:
+    container_name: my-web-container
+    build:
+      context: ./docker
+      dockerfile: Dockerfile
+      args:
+        domain: domain.tld
+    deploy:
+      mode: replicated
+      replicas: 1
+  # https://docs.docker.com/compose/compose-file/
+  donejs:
+    container_name: donejs-app
+    build:
+      context: ./docker
+      dockerfile: Dockerfile
+      args:
+        domain: domain.tld
+    deploy:
+      mode: replicated
+      replicas: 2 #Number of CPU Cores
+      update_config:
+        parallelism: 1 # best number of CPU Cores -1
+        delay: 10s # Set this after testing to a real example start time under good conditions
+      restart_policy:
+        condition: on-failure
+      resources:
+        limits:
+          cpus: '0.8000'
+          memory: 1760M # Default Chrome v8 Engine Mem Heap
+        reservations:
+          cpus: '0.2000'
+          memory: 1760M
